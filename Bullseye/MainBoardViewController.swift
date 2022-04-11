@@ -34,6 +34,7 @@ class MainBoardViewController: UIViewController {
     }
 
     @IBAction func didTapSelectButton(_ sender: Any) {
+        
         //task
         //1. read the number from the slider(sliderValue)
         let sliderValue: Float = slider.value
@@ -49,14 +50,14 @@ class MainBoardViewController: UIViewController {
         } else {
             print("You chose a number \(sliderValueInt)")
         }
-        
+
         print("the value of the slider: in Float", sliderValue)
         print("the value of the slider: in Int ", sliderValueInt)
         updateRound()
        }
     
     
-    @IBAction func tapStartOverIcon(_ sender: Any) {
+    @IBAction func didTapStartOverIcon(_ sender: Any) {
         print("Pressed restart button")
         setUp()
         
@@ -75,6 +76,29 @@ class MainBoardViewController: UIViewController {
             scoreLabel.text = "Score: " + String(score)
     }
     
+    func showResults() {
+        
+        //creating alert
+        let alert: UIAlertController = UIAlertController(title: "Results", message: "You earned \(score) score", preferredStyle: .alert)
+        
+        //created a button for alert
+        let okButton: UIAlertAction = UIAlertAction(title: "Start again", style: .default, handler: { _ in
+            //action when button is pressed
+            print("You pressed the button")
+            
+            self.setUp()
+        })
+        
+        //added button to alert
+        alert.addAction(okButton)
+        
+        //displayed alert on the screen
+        present(alert, animated: true)
+        
+        
+    }
+    
+    
     //update
     func updateGuessingNumber() {
         guessingNumber = Int.random(in: 1...100)
@@ -83,15 +107,24 @@ class MainBoardViewController: UIViewController {
     
     //add rounds; if you got wrong number 10 times restart game
     func updateRound() {
-        roundLabel.text = "Round: " + String(round)
+                
         if round >= 10 {
-            round = 1
+            round = 0
             print("Game over")
-            setUp()
+            showResults()
         } else {
             round = round + 1
+            updateGuessingNumber()
+        }
+        roundLabel.text = "Round: " + String(round)
+    }
+    
+    //uptadescore
+    func updateScore() {
+         
             
         }
-    }
+            
+    
 }
 
